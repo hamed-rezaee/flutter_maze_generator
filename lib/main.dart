@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_a_star/maze.dart';
 import 'package:flutter_a_star/maze_painter.dart';
@@ -33,13 +35,26 @@ class MainApp extends StatelessWidget {
 
   Stream<Maze> updateGrid() {
     final Stream<Maze> result = Stream<Maze>.periodic(
-      const Duration(milliseconds: 50),
+      const Duration(milliseconds: 30),
       (_) {
-        maze.checkNeighbors();
+        if (maze.mazeIsDone) {
+          for (var element in maze.grid) {
+            for (var cell in element) {
+              cell.visited = false;
+            }
+          }
+        }
+
+        maze.mazeIsDone ? maze.findPath() : maze.checkNeighbors();
+
+        if (maze.goalFound) {
+          maze.backtrackPath();
+        }
+
         return maze;
       },
     );
 
-    return result.takeWhile((Maze maze) => maze.currentCell != null);
+    return result;
   }
 }

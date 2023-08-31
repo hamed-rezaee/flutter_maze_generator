@@ -19,4 +19,10 @@ class Cell {
   ];
 
   bool visited = false;
+
+  double f = 0;
+  double g = 0;
+  double h = 0;
+
+  Cell? previous;
 }
