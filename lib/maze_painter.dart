@@ -32,15 +32,33 @@ class MazePainter extends CustomPainter {
     final Paint backgroundPaint = Paint()
       ..color = maze.currentCell == cell
           ? Colors.green
-          : cell.visited
-              ? Colors.purple
-              : Colors.grey
+          : maze.start == cell || maze.goal == cell
+              ? Colors.orange
+              : maze.openSet.contains(cell)
+                  ? Colors.blue
+                  : maze.closedSet.contains(cell)
+                      ? Colors.red
+                      : cell.visited
+                          ? Colors.purple
+                          : Colors.grey
       ..style = PaintingStyle.fill;
 
     canvas.drawRect(
       Rect.fromLTWH(x, y, cell.width + 0.5, cell.width + 0.5),
       backgroundPaint,
     );
+
+    if (maze.path.contains(cell)) {
+      final Paint pathPaint = Paint()
+        ..color = Colors.black
+        ..style = PaintingStyle.fill;
+
+      canvas.drawCircle(
+        Offset(x + cell.width / 2, y + cell.width / 2),
+        cell.width / 6,
+        pathPaint,
+      );
+    }
   }
 
   void _drawWalls(Canvas canvas, Cell cell, double x, double y) {
