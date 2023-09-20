@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="flutter_a_star"
+        android:label="flutter_maze_generator"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

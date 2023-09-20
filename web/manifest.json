@@ -1,6 +1,6 @@
 {
-    "name": "flutter_a_star",
-    "short_name": "flutter_a_star",
+    "name": "flutter_maze_generator",
+    "short_name": "flutter_maze_generator",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

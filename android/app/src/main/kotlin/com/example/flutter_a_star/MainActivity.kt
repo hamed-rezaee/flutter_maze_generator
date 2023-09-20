@@ -1,4 +1,4 @@
-package com.example.flutter_a_star
+package com.example.flutter_maze_generator
 
 import io.flutter.embedding.android.FlutterActivity
 
