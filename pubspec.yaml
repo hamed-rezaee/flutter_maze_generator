@@ -1,14 +1,16 @@
-name: flutter_a_star
-description: A new Flutter project.
-publish_to: 'none'
+name: flutter_maze_generator
+description: A maze generator written in Dart and Flutter.
+
+publish_to: "none"
 version: 0.1.0
 
 environment:
-  sdk: '>=3.0.6 <4.0.0'
+  sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
+  equatable: ^2.0.5
 
 dev_dependencies:
   flutter_test:
