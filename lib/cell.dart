@@ -1,14 +1,15 @@
-import 'package:flutter_a_star/enums.dart';
+import 'package:equatable/equatable.dart';
 
-class Cell {
+import 'package:flutter_maze_generator/enums.dart';
+import 'package:flutter_maze_generator/position.dart';
+
+class Cell with EquatableMixin {
   Cell({
-    required this.x,
-    required this.y,
+    required this.position,
     required this.width,
   });
 
-  final int x;
-  final int y;
+  final Position position;
   final double width;
 
   final List<Direction> walls = <Direction>[
@@ -24,5 +25,6 @@ class Cell {
   double g = 0;
   double h = 0;
 
-  Cell? previous;
+  @override
+  List<Object?> get props => <Object?>[position];
 }
