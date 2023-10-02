@@ -1,60 +1,44 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_a_star/maze.dart';
-import 'package:flutter_a_star/maze_painter.dart';
 
-const Size size = Size(600, 600);
+import 'package:flutter_maze_generator/maze_drawer.dart';
+import 'package:flutter_maze_generator/maze_generator.dart';
+import 'package:flutter_maze_generator/maze_painter.dart';
+import 'package:flutter_maze_generator/position.dart';
+
+const Size size = Size(400, 400);
+const double cellWidth = 16;
 
 void main() => runApp(MainApp());
 
 class MainApp extends StatelessWidget {
   MainApp({super.key});
 
-  final Maze maze = Maze(
+  final MazeGenerator maze = MazeGenerator(
     width: size.width,
     height: size.height,
-    cellWidth: 16,
+    cellWidth: cellWidth,
+    start: Position(0, 0),
+    goal: Position(
+      (size.width / cellWidth - 1).floor(),
+      (size.height / cellWidth - 1).floor(),
+    ),
   );
 
   @override
   Widget build(BuildContext context) => MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: Scaffold(
+          backgroundColor: Colors.black,
           body: Center(
-            child: StreamBuilder<Maze>(
-              stream: updateGrid(),
+            child: StreamBuilder<MazeGenerator>(
+              stream: maze.generateDepthFirst(),
               initialData: maze,
-              builder: (_, AsyncSnapshot<Maze> result) => CustomPaint(
+              builder: (_, AsyncSnapshot<MazeGenerator> result) => CustomPaint(
                 size: size,
-                painter: MazePainter(result.data!),
+                painter: MazePainter(MazeDrawer(result.data!)),
               ),
             ),
           ),
         ),
       );
-
-  Stream<Maze> updateGrid() {
-    final Stream<Maze> result = Stream<Maze>.periodic(
-      const Duration(milliseconds: 30),
-      (_) {
-        if (maze.mazeIsDone) {
-          for (var element in maze.grid) {
-            for (var cell in element) {
-              cell.visited = false;
-            }
-          }
-        }
-
-        maze.mazeIsDone ? maze.findPath() : maze.checkNeighbors();
-
-        if (maze.goalFound) {
-          maze.backtrackPath();
-        }
-
-        return maze;
-      },
-    );
-
-    return result;
-  }
 }
