@@ -6,7 +6,7 @@ import 'package:flutter_maze_generator/maze_painter.dart';
 import 'package:flutter_maze_generator/position.dart';
 
 const Size size = Size(400, 400);
-const double cellWidth = 16;
+const double cellWidth = 8;
 
 void main() => runApp(MainApp());
 
