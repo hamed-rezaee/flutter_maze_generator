@@ -23,6 +23,28 @@ class MazeDrawer {
     }
   }
 
+  void drawPath(Canvas canvas) {
+    final List<Cell> path = maze.grid
+        .expand((List<Cell> cells) => cells)
+        .where((Cell cell) => cell.path)
+        .toList();
+
+    for (final Cell cell in path) {
+      final Paint paint = Paint()
+        ..color = Colors.red
+        ..strokeCap = StrokeCap.round
+        ..strokeWidth = cell.width / 3;
+
+      final Offset offset = cell.offset;
+
+      if (cell.previous != null) {
+        final Offset previousOffset = cell.previous!.offset;
+
+        canvas.drawLine(offset, previousOffset, paint);
+      }
+    }
+  }
+
   void _drawCells(Canvas canvas, Cell cell, double x, double y) {
     final Paint backgroundPaint = Paint()
       ..color = maze.currentCell == cell
