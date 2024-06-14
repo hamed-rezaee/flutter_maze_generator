@@ -15,7 +15,7 @@ Flutter: Make sure you have Flutter installed.
 1. Clone the repository:
 
 ```dart
-git clone https://github.com/hamed-deriv/flutter_maze_generator.git
+git clone https://github.com/hamed-rezaee/flutter_maze_generator.git
 ```
 
 2. Navigate to the project directory:
