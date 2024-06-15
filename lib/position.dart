@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class Position with EquatableMixin {
-  Position(this.x, this.y);
+  const Position(this.x, this.y);
 
   final int x;
   final int y;
@@ -10,5 +10,5 @@ class Position with EquatableMixin {
   List<Object?> get props => <Object?>[x, y];
 
   @override
-  String toString() => '$runtimeType(x: $x, y: $y)';
+  String toString() => 'Position(x: $x, y: $y)';
 }

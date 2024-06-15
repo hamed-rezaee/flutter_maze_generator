@@ -35,18 +35,17 @@ class MazeGenerator {
 
   Stream<MazeGenerator> generateDepthFirst({
     bool solve = true,
-    Duration duration = const Duration(milliseconds: 1),
+    Duration duration = const Duration(milliseconds: 5),
   }) async* {
     while (!_mazeIsDone) {
-      final List<Cell> neighbors = _getNeigbor(
+      final neighbors = _getNeigbor(
         currentCell!.position,
         checkWalls: false,
       );
 
       if (neighbors.isNotEmpty) {
-        final Direction direction =
-            Direction.values[Random().nextInt(neighbors.length)];
-        final Cell nextCell = neighbors[direction.index];
+        final direction = Direction.values[Random().nextInt(neighbors.length)];
+        final nextCell = neighbors[direction.index];
 
         _stack.add(currentCell!);
         _removeWalls(currentCell!, nextCell);
@@ -66,7 +65,7 @@ class MazeGenerator {
     }
 
     if (solve) {
-      for (final Cell cell in _findPath()) {
+      for (final cell in _findPath()) {
         cell.path = true;
 
         await Future<void>.delayed(duration * 10);
@@ -76,25 +75,25 @@ class MazeGenerator {
   }
 
   Iterable<Cell> _findPath() {
-    final List<Cell> result = <Cell>[];
+    final result = <Cell>[];
 
-    for (final List<Cell> row in grid) {
-      for (final Cell cell in row) {
-        cell.f = 0;
-        cell.g = 0;
-        cell.h = 0;
-        cell.visited = false;
-
-        cell.previous = null;
+    for (final row in grid) {
+      for (final cell in row) {
+        cell
+          ..f = 0
+          ..g = 0
+          ..h = 0
+          ..visited = false
+          ..previous = null;
       }
     }
 
-    final List<Cell> openSet = <Cell>[grid[start.x][start.y]];
+    final openSet = <Cell>[grid[start.x][start.y]];
 
     while (openSet.isNotEmpty) {
-      Cell current = openSet.first;
+      var current = openSet.first;
 
-      for (final Cell cell in openSet) {
+      for (final cell in openSet) {
         if (cell.f < current.f) {
           current = cell;
         }
@@ -106,14 +105,14 @@ class MazeGenerator {
 
       openSet.remove(current..visited = true);
 
-      final List<Cell> neighbors =
-          _getNeigbor(current.position, checkWalls: true);
+      final neighbors = _getNeigbor(current.position, checkWalls: true);
 
-      for (final Cell neighbor in neighbors) {
+      for (final neighbor in neighbors) {
         neighbor.previous = current;
         neighbor.g++;
-        neighbor.h = _getDistance(neighbor.position, goal);
-        neighbor.f = neighbor.g + neighbor.h;
+        neighbor
+          ..h = _getDistance(neighbor.position, goal)
+          ..f = neighbor.g + neighbor.h;
 
         if (!openSet.contains(neighbor) && !neighbor.visited) {
           openSet.add(neighbor);
@@ -127,33 +126,33 @@ class MazeGenerator {
   void _initializeGrid() {
     grid.clear();
 
-    for (int i = 0; i < columnsCount; i++) {
+    for (var i = 0; i < columnsCount; i++) {
       grid.add(<Cell>[]);
 
-      for (int j = 0; j < rowsCount; j++) {
+      for (var j = 0; j < rowsCount; j++) {
         grid[i].add(Cell(position: Position(i, j), width: cellWidth));
       }
     }
   }
 
   List<Cell> _getNeigbor(Position position, {required bool checkWalls}) {
-    final List<Cell> neighbors = <Cell>[];
-    final List<Position> neighborPositions = <Position>[
+    final neighbors = <Cell>[];
+    final neighborPositions = <Position>[
       Position(position.x, position.y - 1),
       Position(position.x + 1, position.y),
       Position(position.x, position.y + 1),
       Position(position.x - 1, position.y),
     ];
 
-    for (final Direction direction in Direction.values) {
-      final int index = direction.index;
+    for (final direction in Direction.values) {
+      final index = direction.index;
 
       if (_isOutsideOfGrid(neighborPositions[index], columnsCount, rowsCount)) {
         continue;
       }
 
-      final Cell current = grid[position.x][position.y];
-      final Cell neighbor =
+      final current = grid[position.x][position.y];
+      final neighbor =
           grid[neighborPositions[index].x][neighborPositions[index].y];
 
       if (checkWalls && current.walls.contains(direction)) {
@@ -175,8 +174,8 @@ class MazeGenerator {
       position.y >= height;
 
   void _removeWalls(Cell currentCell, Cell nextCell) {
-    final int x = currentCell.position.x - nextCell.position.x;
-    final int y = currentCell.position.y - nextCell.position.y;
+    final x = currentCell.position.x - nextCell.position.x;
+    final y = currentCell.position.y - nextCell.position.y;
 
     if (x == 1) {
       currentCell.walls.remove(Direction.left);
@@ -196,9 +195,9 @@ class MazeGenerator {
   }
 
   Iterable<Cell> _reconstructPath() {
-    Cell goal = grid[this.goal.x][this.goal.y];
+    var goal = grid[this.goal.x][this.goal.y];
 
-    final List<Cell> path = <Cell>[goal];
+    final path = <Cell>[goal];
 
     while (goal.previous != null) {
       goal = goal.previous!;

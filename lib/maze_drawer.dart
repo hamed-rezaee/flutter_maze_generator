@@ -4,18 +4,18 @@ import 'package:flutter_maze_generator/enums.dart';
 import 'package:flutter_maze_generator/maze_generator.dart';
 
 class MazeDrawer {
-  MazeDrawer(this.maze);
+  const MazeDrawer(this.maze);
 
   final MazeGenerator maze;
 
   void draw(Canvas canvas) {
-    final List<List<Cell>> grid = maze.grid;
+    final grid = maze.grid;
 
-    for (int i = 0; i < grid.first.length; i++) {
-      for (int j = 0; j < grid.length; j++) {
-        final Cell cell = grid[j][i];
-        final double x = cell.position.x * cell.width;
-        final double y = cell.position.y * cell.width;
+    for (var i = 0; i < grid.first.length; i++) {
+      for (var j = 0; j < grid.length; j++) {
+        final cell = grid[j][i];
+        final x = cell.position.x * cell.width;
+        final y = cell.position.y * cell.width;
 
         _drawCells(canvas, cell, x, y);
         _drawWalls(canvas, cell, x, y);
@@ -24,21 +24,21 @@ class MazeDrawer {
   }
 
   void drawPath(Canvas canvas) {
-    final List<Cell> path = maze.grid
+    final path = maze.grid
         .expand((List<Cell> cells) => cells)
         .where((Cell cell) => cell.path)
         .toList();
 
-    for (final Cell cell in path) {
-      final Paint paint = Paint()
+    for (final cell in path) {
+      final paint = Paint()
         ..color = Colors.red
         ..strokeCap = StrokeCap.round
         ..strokeWidth = cell.width / 3;
 
-      final Offset offset = cell.offset;
+      final offset = cell.offset;
 
       if (cell.previous != null) {
-        final Offset previousOffset = cell.previous!.offset;
+        final previousOffset = cell.previous!.offset;
 
         canvas.drawLine(offset, previousOffset, paint);
       }
@@ -46,7 +46,7 @@ class MazeDrawer {
   }
 
   void _drawCells(Canvas canvas, Cell cell, double x, double y) {
-    final Paint backgroundPaint = Paint()
+    final backgroundPaint = Paint()
       ..color = maze.currentCell == cell
           ? Colors.green
           : cell.visited
@@ -69,7 +69,7 @@ class MazeDrawer {
   }
 
   void _drawWalls(Canvas canvas, Cell cell, double x, double y) {
-    final Paint walllPaint = Paint()..color = Colors.white;
+    final walllPaint = Paint()..color = Colors.white;
 
     if (cell.walls.contains(Direction.top)) {
       canvas.drawLine(

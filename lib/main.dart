@@ -5,8 +5,8 @@ import 'package:flutter_maze_generator/maze_generator.dart';
 import 'package:flutter_maze_generator/maze_painter.dart';
 import 'package:flutter_maze_generator/position.dart';
 
-const Size size = Size(400, 400);
-const double cellWidth = 8;
+const Size size = Size(300, 400);
+const double cellWidth = 14;
 
 void main() => runApp(MainApp());
 
@@ -17,7 +17,7 @@ class MainApp extends StatelessWidget {
     width: size.width,
     height: size.height,
     cellWidth: cellWidth,
-    start: Position(0, 0),
+    start: const Position(0, 0),
     goal: Position(
       (size.width / cellWidth - 1).floor(),
       (size.height / cellWidth - 1).floor(),
