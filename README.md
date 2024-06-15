@@ -2,6 +2,8 @@
 
 A Flutter application to generate and visualize mazes. This project provides a maze generator that creates mazes using the depth-first search algorithm and a maze drawer to render the generated maze.
 
+After generating the maze, a path is found using the A* search algorithm, and the path is displayed on the screen by animating the path cells.
+
 ![Maze Generator](flutter_maze_generator.gif)
 
 ## Getting Started
