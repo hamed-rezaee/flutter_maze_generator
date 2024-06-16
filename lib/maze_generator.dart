@@ -68,7 +68,7 @@ class MazeGenerator {
       for (final cell in _findPath()) {
         cell.path = true;
 
-        await Future<void>.delayed(duration * 10);
+        await Future<void>.delayed(duration * 5);
         yield this;
       }
     }

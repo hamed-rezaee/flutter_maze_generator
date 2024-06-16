@@ -50,7 +50,7 @@ class MazeDrawer {
       ..color = maze.currentCell == cell
           ? Colors.green
           : cell.visited
-              ? Colors.deepPurple
+              ? Colors.black
               : Colors.grey
       ..style = PaintingStyle.fill;
 
